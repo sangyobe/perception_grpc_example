@@ -1,0 +1,22 @@
+# set(protobuf_MODULE_COMPATIBLE TRUE)
+# find_package(Protobuf CONFIG REQUIRED)
+# message(STATUS "Using protobuf ${Protobuf_VERSION}")
+# message(STATUS "    Protobuf_INCLUDE_DIRS ${Protobuf_INCLUDE_DIRS}")
+# message(STATUS "    Protobuf_LIBRARY ${Protobuf_LIBRARY}")
+# message(STATUS "    Protobuf_LIBRARY_DEBUG ${Protobuf_LIBRARY_DEBUG}")
+# message(STATUS "    Protobuf_PROTOC_EXECUTABLE ${Protobuf_PROTOC_EXECUTABLE}")
+
+# find_package(gRPC CONFIG REQUIRED)
+# message(STATUS "Using gRPC ${gRPC_VERSION}")
+# # message(STATUS "    gRPC_INCLUDE_DIRS ${gRPC_INCLUDE_DIRS}")
+# # message(STATUS "    gRPC_LIBRARY ${gRPC_LIBRARY}")
+# # message(STATUS "    gRPC_LIBRARY_DEBUG ${gRPC_LIBRARY_DEBUG}")
+
+# # find_package(Protobuf CONFIG REQUIRED)
+# # find_package(gRPC CONFIG REQUIRED)
+
+add_subdirectory(bmr_rpc_server)
+add_subdirectory(simple_client)
+add_subdirectory(simple_caller)
+add_subdirectory(perceived_object_publisher)
+add_subdirectory(opstate_subscriber)
