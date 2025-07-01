@@ -1,5 +1,5 @@
-#ifndef SYSTEM_NETWORK_ONPERCEIVEDOBJECT_H
-#define SYSTEM_NETWORK_ONPERCEIVEDOBJECT_H
+#ifndef SYSTEM_NETWORK_ONSUBPERCEIVEDOBJECT_H
+#define SYSTEM_NETWORK_ONSUBPERCEIVEDOBJECT_H
 
 #include "robotData.h"
 #include <dtCore/src/dtDAQ/grpc/dtServiceListenerGrpc.hpp>
@@ -8,14 +8,14 @@
 #include <memory>
 #include <string>
 
-class OnPerceivedObjectArray : public dt::DAQ::ServiceListenerGrpc::Session
+class OnSubPerceivedObjectArray : public dt::DAQ::ServiceListenerGrpc::Session
 {
     using CallState = typename dt::DAQ::ServiceListenerGrpc::Session::CallState;
     using ServiceType = dtproto::perception::AsyncService;
 
 public:
-    OnPerceivedObjectArray(dt::DAQ::ServiceListenerGrpc *server, grpc::Service *service, grpc::ServerCompletionQueue *cq, void *udata = nullptr);
-    ~OnPerceivedObjectArray() = default;
+    OnSubPerceivedObjectArray(dt::DAQ::ServiceListenerGrpc *server, grpc::Service *service, grpc::ServerCompletionQueue *cq, void *udata = nullptr);
+    ~OnSubPerceivedObjectArray() = default;
     bool OnCompletionEvent(bool ok) override;
 
 private:
@@ -25,4 +25,4 @@ private:
     RobotData *_robotData;
 };
 
-#endif // SYSTEM_NETWORK_ONPERCEIVEDOBJECT_H
+#endif // SYSTEM_NETWORK_ONSUBPERCEIVEDOBJECT_H

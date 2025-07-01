@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(robot_command_publisher)
+project(robot_command_caller)
 
 list(APPEND CMAKE_PREFIX_PATH "${ARTF_INSTALL_DIR}/lib/cmake")
 find_package(artf CONFIG REQUIRED)

@@ -1,19 +1,19 @@
 #ifndef __PUBROBOTCOMMAND_H__
 #define __PUBROBOTCOMMAND_H__
 
-#include "QuadrupedNav.grpc.pb.h"
 #include "emulRobotCommand.h"
 #include <dtCore/src/dtDAQ/grpc/dtServiceCallerGrpc.hpp>
+#include <dtProto/Service.grpc.pb.h>
 #include <dtProto/robot_msgs/RobotCommand.pb.h>
 #include <memory>
 #include <string>
 
-class PubRobotCommand : public dt::DAQ::ServiceCallerGrpc<dtproto::quadruped::Nav>::Call
+class PubRobotCommand : public dt::DAQ::ServiceCallerGrpc<dtproto::dtService>::Call
 {
-    using CallState = typename dt::DAQ::ServiceCallerGrpc<dtproto::quadruped::Nav>::Call::CallState;
+    using CallState = typename dt::DAQ::ServiceCallerGrpc<dtproto::dtService>::Call::CallState;
 
 public:
-    PubRobotCommand(dtproto::quadruped::Nav::Stub *stub, grpc::CompletionQueue *cq, void *udata = nullptr);
+    PubRobotCommand(dtproto::dtService::Stub *stub, grpc::CompletionQueue *cq, void *udata = nullptr);
     ~PubRobotCommand();
 
     bool OnCompletionEvent(bool ok) override;

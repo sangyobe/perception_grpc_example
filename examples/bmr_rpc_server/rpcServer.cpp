@@ -1,7 +1,9 @@
 #include "rpcServer.h"
 #include "onReqRobotInfo.h"
 #include "onReqVersion.h"
-#include "onPerceivedObject.h"
+#include "onRobotCommand.h"
+#include "onSubPerceivedObject.h"
+#include "onSubRobotCommand.h"
 #include "robotData.h"
 #include <dtCore/src/dtLog/dtLog.h>
 #include <dtProto/Service.grpc.pb.h>
@@ -26,8 +28,10 @@ RpcServer::RpcServer(void *robotData)
 {
     _dtServiceListener->AddSession<OnReqRobotInfo>(robotData);
     _dtServiceListener->AddSession<OnReqVersion>(robotData);
-    
-    _perceptionServiceListener->AddSession<OnPerceivedObjectArray>(robotData);
+    _dtServiceListener->AddSession<OnRobotCommand>(robotData);
+    _dtServiceListener->AddSession<OnSubRobotCommand>(robotData);
+
+    _perceptionServiceListener->AddSession<OnSubPerceivedObjectArray>(robotData);
 
     // pre-allocate and initialize message structure
     _robotStateMsg.mutable_header()->set_frame_id("base");

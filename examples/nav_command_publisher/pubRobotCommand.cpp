@@ -1,7 +1,7 @@
 #include "pubRobotCommand.h"
 #include <dtCore/src/dtLog/dtLog.h>
 
-using ServiceType = dtproto::quadruped::Nav;
+using ServiceType = dtproto::dtService;
 
 PubRobotCommand::PubRobotCommand(ServiceType::Stub *stub, grpc::CompletionQueue *cq, void *udata)
     : dt::DAQ::ServiceCallerGrpc<ServiceType>::Call(stub, cq, udata), _robotCommand((RobotCommand *)udata)

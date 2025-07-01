@@ -1,7 +1,6 @@
 #ifndef RPCCLIENT_H
 #define RPCCLIENT_H
 
-#include "QuadrupedNav.grpc.pb.h"
 #include <dtCore/src/dtDAQ/grpc/dtServiceCallerGrpc.hpp>
 #include <string>
 

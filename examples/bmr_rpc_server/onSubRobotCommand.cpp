@@ -1,15 +1,15 @@
-#include "onPerceivedObject.h"
+#include "onSubRobotCommand.h"
 #include <dtCore/src/dtLog/dtLog.h>
 
-OnPerceivedObjectArray::OnPerceivedObjectArray(dt::DAQ::ServiceListenerGrpc *server, grpc::Service *service, grpc::ServerCompletionQueue *cq, void *udata)
+OnSubRobotCommand::OnSubRobotCommand(dt::DAQ::ServiceListenerGrpc *server, grpc::Service *service, grpc::ServerCompletionQueue *cq, void *udata)
     : dt::DAQ::ServiceListenerGrpc::Session(server, service, cq, udata), _responder(&_ctx), _robotData((RobotData *)udata)
 {
     _call_state = CallState::WAIT_CONNECT;
-    (static_cast<ServiceType *>(_service))->RequestSubscribePerceivedObjects(&(_ctx), &_responder, _cq, _cq, this);
-    LOG(debug) << "OnPerceivedObjectArray[" << _id << "] Waiting for new service call.";
+    (static_cast<ServiceType *>(_service))->RequestSubscribeRobotCommand(&(_ctx), &_responder, _cq, _cq, this);
+    LOG(debug) << "OnSubRobotCommand[" << _id << "] Waiting for new service call.";
 }
 
-bool OnPerceivedObjectArray::OnCompletionEvent(bool ok)
+bool OnSubRobotCommand::OnCompletionEvent(bool ok)
 {
     if (_call_state == CallState::WAIT_FINISH)
     {
@@ -20,9 +20,9 @@ bool OnPerceivedObjectArray::OnCompletionEvent(bool ok)
 
         if (_call_state == CallState::WAIT_CONNECT)
         {
-            LOG(debug) << "OnPerceivedObjectArray[" << _id << "] NEW service call.";
+            LOG(debug) << "OnSubRobotCommand[" << _id << "] NEW service call.";
             // add another service listener
-            _server->template AddSession<OnPerceivedObjectArray>((void *)_robotData);
+            _server->template AddSession<OnSubRobotCommand>((void *)_robotData);
             // process incomming service call
             {
                 std::lock_guard<std::mutex> lock(_proc_mtx);
@@ -34,10 +34,7 @@ bool OnPerceivedObjectArray::OnCompletionEvent(bool ok)
         {
             std::lock_guard<std::mutex> lock(_proc_mtx);
 
-            for (const dtproto::perception_msgs::Object &obj : _request.object_array().objects())
-            {
-                LOG(info) << "Detected: " << obj.id();
-            }
+            LOG(info) << "Recv RobotCommand: ";
 
             _responder.Read(&_request, (void *)this);
             _call_state = CallState::WAIT_READ_DONE;
@@ -47,7 +44,7 @@ bool OnPerceivedObjectArray::OnCompletionEvent(bool ok)
     {
         if (_call_state == CallState::WAIT_CONNECT)
         {
-            LOG(err) << "OnPerceivedObjectArray[" << _id << "] Session has been shut down before receiving a matching request.";
+            LOG(err) << "OnSubRobotCommand[" << _id << "] Session has been shut down before receiving a matching request.";
             return false;
         }
         else
