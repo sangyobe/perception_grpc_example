@@ -33,6 +33,18 @@ bool OnRobotCommand::OnCompletionEvent(bool ok)
             {
                 std::lock_guard<std::mutex> lock(_proc_mtx);
 
+                LOG(trace) << "OnRobotCommand"
+                           << "\n\tcmd_mode=" << _request.command().cmd().cmd_mode() << ", "
+                           << "\n\targ=" << _request.command().cmd().arg() << " ";
+                for (int i = 0; i < _request.command().cmd().arg_n_size(); i++)
+                {
+                    LOG(trace) << "\n\targ_n[" << i << "]=" << _request.command().cmd().arg_n(i);
+                }
+                for (int i = 0; i < _request.command().cmd().arg_f_size(); i++)
+                {
+                    LOG(trace) << "\n\targ_f[" << i << "]=" << _request.command().cmd().arg_f(i);
+                }
+
                 if (_request.command().cmd().cmd_mode() == 3)
                 {
                     _response.set_rtn(-1);
